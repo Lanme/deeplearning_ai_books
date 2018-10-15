@@ -265,6 +265,28 @@
 
 **Batch**归一化还有一个作用，它有轻微的正则化效果，**Batch**归一化中非直观的一件事是，每个**mini-batch**，我会说**mini-batch**$X^{\{ t \}}$的值为$z^{\lbrack t\rbrack}$，$z^{[l]}$，在**mini-batch**计算中，由均值和方差缩放的，因为在**mini-batch**上计算的均值和方差，而不是在整个数据集上，均值和方差有一些小的噪声，因为它只在你的**mini-batch**上计算，比如64或128或256或更大的训练例子。因为均值和方差有一点小噪音，因为它只是由一小部分数据估计得出的。缩放过程从$z^{[l]}$到${\tilde{z}}^{[l]}$，过程也有一些噪音，因为它是用有些噪音的均值和方差计算得出的。
 
+[^BN层的作用]: 上面讲了两个作用，一是减少输入值的改变，使输入分布变得稳定；二是有轻微的正则化的效果，产生一些噪音降低了网络的表达能力。
+
+```python
+tf.nn.batch_normalization(
+    x,
+    mean,
+    variance,
+    offset,
+    scale,
+    variance_epsilon,
+    name=None
+)
+Args:
+x: Input Tensor of arbitrary dimensionality.
+mean: A mean Tensor.
+variance: A variance Tensor.
+offset: An offset Tensor, often denoted  in equations, or None. If present, will be added to the normalized tensor.
+scale: A scale Tensor, often denoted  in equations, or None. If present, the scale is applied to the normalized tensor.
+variance_epsilon: A small float number to avoid dividing by 0.
+name: A name for this operation (optional).
+```
+
 ![](../images/0feb6ee8af40238fc1374131bc517e35.png)
 
 所以和**dropout**相似，它往每个隐藏层的激活值上增加了噪音，**dropout**有增加噪音的方式，它使一个隐藏的单元，以一定的概率乘以0，以一定的概率乘以1，所以你的**dropout**含几重噪音，因为它乘以0或1。
